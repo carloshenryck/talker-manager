@@ -12,6 +12,12 @@ const getTalkers = async () => {
   }
 };
 
+const getTalkerById = async (id) => {
+  const talkers = await getTalkers();
+  return talkers.find((talker) => Number(talker.id) === id);
+};
+
 module.exports = {
   getTalkers,
+  getTalkerById,
 };
