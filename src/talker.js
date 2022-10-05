@@ -34,9 +34,9 @@ const editTalker = async (id, newTalker) => {
     const talkers = await getTalkers();
     const newTalkerWithId = newTalker;
 
-    const editedTalkers = talkers.map((talker, i) => {
-      if (Number(talker.id) === Number(id)) {
-        newTalkerWithId.id = i + 1;
+    const editedTalkers = talkers.map((talker) => {
+      if (Number(talker.id) === id) {
+        newTalkerWithId.id = id;
         return newTalkerWithId;
       }
       return talker;
@@ -48,9 +48,20 @@ const editTalker = async (id, newTalker) => {
   }
 };
 
+const deleteTalker = async (id) => {
+  try {
+    const talkers = await getTalkers();
+    const editedTalkers = talkers.filter((talker) => Number(talker.id) !== id);
+    await fs.writeFile(join(__dirname, path), JSON.stringify(editedTalkers));
+  } catch (err) {
+    return null;
+  }
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
   addTalker,
   editTalker,
+  deleteTalker,
 };

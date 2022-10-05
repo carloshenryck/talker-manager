@@ -50,9 +50,15 @@ router.put(
   validateTalkRate,
   async (req, res) => { 
     const { id } = req.params;
-    await talker.editTalker(id, req.body);  
+    await talker.editTalker(Number(id), req.body);  
     res.status(200).json(req.body);
   },
 );
+
+router.delete('/:id', validateAuthorization, async (req, res) => {
+  const { id } = req.params;
+  await talker.deleteTalker(Number(id));
+  res.status(204).end();
+});
 
 module.exports = router;
