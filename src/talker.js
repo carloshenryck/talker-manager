@@ -17,7 +17,20 @@ const getTalkerById = async (id) => {
   return talkers.find((talker) => Number(talker.id) === id);
 };
 
+const addTalker = async (talker) => {
+  const talkerWithId = talker;
+  try {
+    const talkers = await getTalkers();
+    talkerWithId.id = talkers[talkers.length - 1].id + 1;
+    const newTalkers = JSON.stringify([...talkers, talkerWithId]);
+    await fs.writeFile(join(__dirname, path), newTalkers);
+  } catch (err) {
+    return null;
+  }
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
+  addTalker,
 };
