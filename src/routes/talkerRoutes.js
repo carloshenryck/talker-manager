@@ -27,17 +27,32 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post(
-'/', 
-validateAuthorization,
-validateName,
-validateAge,
-validateTalk,
-validateTalkWatched,
-validateTalkRate,
-async (req, res) => {
-  await talker.addTalker(req.body);
-  res.status(201).json(req.body);
-},
+  '/', 
+  validateAuthorization,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateTalkWatched,
+  validateTalkRate,
+  async (req, res) => {
+    await talker.addTalker(req.body);
+    res.status(201).json(req.body);
+  },
+);
+
+router.put(
+  '/:id', 
+  validateAuthorization, 
+  validateName, 
+  validateAge,
+  validateTalk,
+  validateTalkWatched,
+  validateTalkRate,
+  async (req, res) => { 
+    const { id } = req.params;
+    await talker.editTalker(id, req.body);  
+    res.status(200).json(req.body);
+  },
 );
 
 module.exports = router;

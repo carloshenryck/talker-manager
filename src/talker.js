@@ -29,8 +29,28 @@ const addTalker = async (talker) => {
   }
 };
 
+const editTalker = async (id, newTalker) => {
+  try {
+    const talkers = await getTalkers();
+    const newTalkerWithId = newTalker;
+
+    const editedTalkers = talkers.map((talker, i) => {
+      if (Number(talker.id) === Number(id)) {
+        newTalkerWithId.id = i + 1;
+        return newTalkerWithId;
+      }
+      return talker;
+    });
+
+    await fs.writeFile(join(__dirname, path), JSON.stringify(editedTalkers));
+  } catch (err) {
+    return null;
+  }
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
   addTalker,
+  editTalker,
 };
