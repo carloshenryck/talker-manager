@@ -1,5 +1,5 @@
 const express = require('express');
-const talker = require('../talker');
+const talker = require('../helpers/talker');
 const { 
   validateAuthorization,
   validateName,
@@ -14,6 +14,12 @@ const router = express.Router();
 router.get('/', async (_req, res) => {
   const talkers = await talker.getTalkers();
   res.status(200).json(talkers);
+});
+
+router.get('/search', validateAuthorization, async (req, res) => {
+  const { q } = req.query;
+  const talkerObj = await talker.getTalkerByName(q);
+  res.status(200).json(talkerObj);
 });
 
 router.get('/:id', async (req, res) => {

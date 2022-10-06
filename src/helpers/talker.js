@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const { join } = require('path');
 
-const path = './talker.json';
+const path = '../talker.json';
 
 const getTalkers = async () => {
   try {
@@ -15,6 +15,22 @@ const getTalkers = async () => {
 const getTalkerById = async (id) => {
   const talkers = await getTalkers();
   return talkers.find((talker) => Number(talker.id) === id);
+};
+
+const getTalkerByName = async (query) => {
+  const talkers = await getTalkers();
+  if (!query) {
+    return talkers;
+  }
+
+  const talkerWanted = talkers.filter((talker) => talker.name.includes(query));
+  console.log(query);
+  console.log(talkerWanted);
+  if (!talkerWanted) {
+    return [];
+  }
+
+  return talkerWanted;
 };
 
 const addTalker = async (talker) => {
@@ -61,6 +77,7 @@ const deleteTalker = async (id) => {
 module.exports = {
   getTalkers,
   getTalkerById,
+  getTalkerByName,
   addTalker,
   editTalker,
   deleteTalker,
